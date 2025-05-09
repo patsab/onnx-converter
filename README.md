@@ -1,1 +1,1 @@
-# onnx-converter
+# ColQwen2 to ONNX converter
