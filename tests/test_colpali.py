@@ -7,7 +7,7 @@ from PIL import Image
 from transformers import ColPaliForRetrieval, ColPaliProcessor
 
 TEST_DIR = Path(__file__).parent
-ONNX_MODEL_PATH = Path(__file__).parent.parent / "onnx_models"
+ONNX_MODEL_PATH = Path(__file__).parent.parent
 
 
 def test_colpali_image_model() -> None:
@@ -18,7 +18,9 @@ def test_colpali_image_model() -> None:
     with torch.no_grad():
         hf_output = hf_model(**image_processed).embeddings
 
-    onnx_model = ort.InferenceSession((ONNX_MODEL_PATH / "colpali_image.onnx"))
+    onnx_model = ort.InferenceSession(
+        (ONNX_MODEL_PATH / "colpali_image_onnx" / "colpali_image.onnx")
+    )
     onnx_output = onnx_model.run(
         ["output_embeddings"],
         {
@@ -44,7 +46,9 @@ def test_colpali_text_model() -> None:
     with torch.no_grad():
         hf_output = hf_model(**text_processed).embeddings
 
-    onnx_model = ort.InferenceSession((ONNX_MODEL_PATH / "colpali_text.onnx"))
+    onnx_model = ort.InferenceSession(
+        (ONNX_MODEL_PATH / "colpali_text_onnx" / "colpali_text.onnx")
+    )
     onnx_output = onnx_model.run(
         ["output_embeddings"],
         {

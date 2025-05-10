@@ -7,20 +7,22 @@ from colpali_engine import ColQwen2, ColQwen2Processor
 from PIL import Image
 
 TEST_DIR = Path(__file__).parent
-ONNX_MODEL_PATH = Path(__file__).parent.parent / "onnx_models"
+ONNX_MODEL_PATH = Path(__file__).parent.parent
 
 
 def test_colqwen2_image_model() -> None:
     processor = ColQwen2Processor.from_pretrained("vidore/colqwen2-v1.0-merged")
     image_processed = processor.process_images(
-        [Image.open((TEST_DIR / "test_image.jpeg"))]
+        [Image.open(TEST_DIR / "test_image.jpeg")]
     )
 
     hf_model = ColQwen2.from_pretrained("vidore/colqwen2-v1.0-merged").eval()
     with torch.no_grad():
         hf_output = hf_model(**image_processed)
 
-    onnx_model = ort.InferenceSession((ONNX_MODEL_PATH / "colqwen2_image.onnx"))
+    onnx_model = ort.InferenceSession(
+        (ONNX_MODEL_PATH / "colqwen2_image_onnx" / "colqwen2_image.onnx")
+    )
     onnx_output = onnx_model.run(
         ["output_embeddings"],
         {
@@ -30,7 +32,8 @@ def test_colqwen2_image_model() -> None:
             "image_grid_thw": image_processed["image_grid_thw"].numpy(),
         },
     )[0]
-
+    print(hf_output.shape)
+    # assert False
     assert hf_output.shape == onnx_output.shape
     # calculate mean diff to check if the embeddings are similar
     mean_diff = np.mean(np.abs(onnx_output - hf_output.numpy()))
@@ -47,7 +50,9 @@ def test_colqwen2_text_model() -> None:
     with torch.no_grad():
         hf_output = hf_model(**text_processed)
 
-    onnx_model = ort.InferenceSession((ONNX_MODEL_PATH / "colqwen2_text.onnx"))
+    onnx_model = ort.InferenceSession(
+        (ONNX_MODEL_PATH / "colqwen2_text_onnx" / "colqwen2_text.onnx")
+    )
     onnx_output = onnx_model.run(
         ["output_embeddings"],
         {

@@ -33,18 +33,17 @@ def convert_onnx_model_to_single_file(
 
 
 if __name__ == "__main__":
-    SOURCE_DIR = "onnx_models"
     OUTPUT_DIR = "onnx_models_single_file"
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    for model_name in [
-        "colpali_image.onnx",
-        "colpali_text.onnx",
-        "colqwen2_image.onnx",
-        "colqwen2_text.onnx",
+    for source_dir, model_name in [
+        ("colpali_image_onnx", "colpali_image.onnx"),
+        ("colpali_text_onnx", "colpali_text.onnx"),
+        ("colqwen2_image_onnx", "colqwen2_image.onnx"),
+        ("colqwen2_text_onnx", "colqwen2_text.onnx"),
     ]:
         convert_onnx_model_to_single_file(
             model_name=model_name,
-            source_dir=SOURCE_DIR,
+            source_dir=source_dir,
             output_dir=OUTPUT_DIR,
         )
