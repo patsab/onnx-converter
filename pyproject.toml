@@ -8,10 +8,9 @@ dependencies = [
     "onnx (>=1.17.0,<2.0.0)",
     "onnxruntime (>=1.21.1,<2.0.0)",
     "onnxscript (>=0.2.5,<0.3.0)",
+    "pytest (>=8.3.5,<9.0.0)",
 ]
 
-[tool.poetry.dependencies]
-fastembed = { path = "./fastembed", develop = true }
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.11.8"

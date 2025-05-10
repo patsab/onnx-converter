@@ -173,4 +173,6 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-procedure.md
+.DS_Store
+
+onnx_models_single_file
