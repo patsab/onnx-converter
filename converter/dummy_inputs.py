@@ -11,8 +11,6 @@ def get_colqwen2_dummy_inputs_images(
     images_raw = [
         Image.new("RGB", (8192, 8192), color="white"),
         Image.new("RGB", (2048, 1024), color="black"),
-        Image.new("RGB", (1024, 2048), color="red"),
-        Image.new("RGB", (512, 512), color="green"),
     ]
     dummy_images: dict[str, torch.Tensor] = dict(**processor.process_images(images_raw))
     return (

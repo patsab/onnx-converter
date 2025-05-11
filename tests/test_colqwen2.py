@@ -12,8 +12,8 @@ ONNX_MODEL_PATH = Path(__file__).parent.parent
 
 def test_colqwen2_image_model() -> None:
     processor = ColQwen2Processor.from_pretrained("vidore/colqwen2-v1.0-merged")
-    image_processed = processor.process_images(
-        [Image.open(TEST_DIR / "test_image.jpeg")]
+    image_processed: dict[str, torch.Tensor] = dict(
+        **processor.process_images([Image.open(TEST_DIR / "test_image.jpeg")])
     )
 
     hf_model = ColQwen2.from_pretrained("vidore/colqwen2-v1.0-merged").eval()
@@ -32,7 +32,6 @@ def test_colqwen2_image_model() -> None:
             "image_grid_thw": image_processed["image_grid_thw"].numpy(),
         },
     )[0]
-    print(hf_output.shape)
     # assert False
     assert hf_output.shape == onnx_output.shape
     # calculate mean diff to check if the embeddings are similar
