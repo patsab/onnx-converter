@@ -38,7 +38,7 @@ class ColPaliWrapper(nn.Module):
 
     def __init__(self, model_name: str = "vidore/colpali-v1.3-hf"):
         super().__init__()
-        self.model = ColPaliForRetrieval.from_pretrained(model_name).eval()
+        self.model = ColPaliForRetrieval.from_pretrained(model_name, torch_dtype=torch.float32).eval()
 
     def forward(
         self,

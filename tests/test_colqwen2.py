@@ -6,15 +6,16 @@ import torch
 from colpali_engine import ColQwen2, ColQwen2Processor
 from PIL import Image
 
-TEST_DIR = Path(__file__).parent
 ONNX_MODEL_PATH = Path(__file__).parent.parent
 
 
 def test_colqwen2_image_model() -> None:
     processor = ColQwen2Processor.from_pretrained("vidore/colqwen2-v1.0-merged")
-    image_processed: dict[str, torch.Tensor] = dict(
-        **processor.process_images([Image.open(TEST_DIR / "test_image.jpeg")])
-    )
+    images = [
+            Image.new("RGB", (8192, 8192), color="white"),
+            Image.new("RGB", (2048, 1024), color="black"),
+            ]
+    image_processed: dict[str, torch.Tensor] = dict(**processor.process_images(images))
 
     hf_model = ColQwen2.from_pretrained("vidore/colqwen2-v1.0-merged").eval()
     with torch.no_grad():

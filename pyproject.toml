@@ -4,8 +4,8 @@ version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.13"
 dependencies = [
-    "colpali-engine @ git+https://github.com/illuin-tech/colpali",
-    "onnxruntime (>=1.22.0,<2.0.0)",
+    "colpali-engine @ git+https://github.com/illuin-tech/colpali@v0.3.10",
+    "onnxruntime (==1.21.1)",
     "onnx (>=1.17.0,<2.0.0)",
     "pytest (>=8.3.5,<9.0.0)"
 ]

@@ -12,7 +12,11 @@ ONNX_MODEL_PATH = Path(__file__).parent.parent
 
 def test_colpali_image_model() -> None:
     processor = ColPaliProcessor.from_pretrained("vidore/colpali-v1.3-hf")
-    image_processed = processor(images=[Image.open((TEST_DIR / "test_image.jpeg"))])
+    images = [
+            Image.new("RGB", (8192, 8192), color="white"),
+            Image.new("RGB", (2048, 1024), color="black"),
+            ]
+    image_processed = processor(images=images)
 
     hf_model = ColPaliForRetrieval.from_pretrained("vidore/colpali-v1.3-hf").eval()
     with torch.no_grad():
